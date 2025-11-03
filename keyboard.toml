@@ -1,50 +1,77 @@
-# Documentation: https://haobogu.github.io/rmk/keyboard_configuration.html
-[keyboard]
-name = "RMK Keyboard"
-product_name = "RMK Keyboard"
-vendor_id = 0x4c4b
-product_id = 0x4643
-manufacturer = "haobo"
-chip = "rp2040"
+name = "w-corne-choc-stm32-miryoku-colemak"
+manufacturer = "keyclicks.ca"
+product = "W-Corne Choc STM32 — Miryoku Colemak"
 
-[matrix]
-# Input and output pins are mandatory
-input_pins = ["PIN_6", "PIN_7", "PIN_8", "PIN_9"]
-output_pins = ["PIN_19", "PIN_20", "PIN_21"]
-# WARNING: Currently row2col/col2row is set in RMK's feature gate, configs here do nothing actually
-# row2col = true
-
-[layout]
 rows = 4
-cols = 3
-layers = 2
-keymap = [
-    [
-        ["A", "B", "C"],
-        ["Kc1", "Kc2", "Kc3"],
-        ["LCtrl", "MO(1)", "LShift"],
-        ["OSL(1)", "LT(2, Kc9)", "LM(1, LShift | LGui)"]
-    ],
-    [
-        ["_", "TT(1)", "TG(2)"],
-        ["_", "_", "_"],
-        ["_", "_", "_"],
-        ["_", "_", "_"]
-    ],
-]
+cols = 12
+diode = "col2row"
 
-[light]
-# All light pins are high-active by default, uncomment if you want it to be low-active
-# capslock.pin = "PB2"
-# capslock.low_active = true
-# scrolllock.pin = "PA3"
-# scrolllock.low_active = true
-# Just ignore if no light pin is used for it
-# numslock.pin = "PA5"
-# numslock.low_active = true
+[split]
+mode = "i2c"
+scl = "PB6"
+sda = "PB7"
+master = "left"
 
+[mcu]
+family = "stm32"
+model = "stm32f3"
+clock_mhz = 72
 
+# Matrix pins (assumed; change if your PCB differs)
+left_cols = ["PA0","PA1","PA2","PA3","PA4","PA5","PA6","PA7","PB0","PB1","PB3","PB4"]
+left_rows = ["PC0","PC1","PC2","PC3"]
+right_cols = ["PA8","PA9","PA10","PA11","PA12","PA13","PA14","PA15","PB6","PB7","PB8","PB9"]
+right_rows = ["PC4","PC5","PC6","PC7"]
+
+[led]
+pin = "PA13"
+active_high = true
 
 [storage]
-# Storage feature is enabled by default
-# enabled = false
+type = "onchip"
+keymap_slot_count = 3
+
+# Layers — Miryoku-style with standard Colemak on base.
+# 4 rows × 12 cols; use underscores or _______ to indicate transparent / no-op where appropriate.
+
+[[layers]]
+name = "base"
+keys = [
+ "KC_GRV  KC_Q    KC_W    KC_F    KC_P    KC_G    KC_J    KC_L    KC_U    KC_Y    KC_SCLN KC_BSLS",
+ "KC_TAB  KC_A    KC_R    KC_S    KC_T    KC_D    KC_H    KC_N    KC_E    KC_I    KC_O    KC_QUOT",
+ "KC_LCTL KC_Z    KC_X    KC_C    KC_V    KC_B    KC_K    KC_M    KC_COMM KC_DOT  KC_SLSH KC_RSFT",
+ "KC_LALT KC_LOWER KC_SPC KC_RAISE KC_RALT KC_BSPC KC_ENT KC_RGUI KC_LEFT KC_DOWN KC_UP KC_RIGHT"
+]
+
+[[layers]]
+name = "lower"
+keys = [
+ "KC_TILD KC_1    KC_2    KC_3    KC_4    KC_5    KC_6    KC_7    KC_8    KC_9    KC_0    KC_MINS",
+ "_______ KC_EXLM KC_AT   KC_HASH KC_DLR  KC_PERC KC_CIRC KC_AMPR KC_ASTR KC_LPRN KC_RPRN KC_EQL",
+ "_______ KC_MPRV KC_VOLD KC_MPLY KC_VOLU KC_MNXT KC_MS_L KC_MS_D KC_MS_U KC_MS_R KC_BTN1 KC_BTN2",
+ "_______ _______ KC_TAB  KC_SPC  KC_BSPC _______ _______ _______ KC_HOME KC_PGDN KC_PGUP KC_END"
+]
+
+[[layers]]
+name = "raise"
+keys = [
+ "KC_F1   KC_F2   KC_F3   KC_F4   KC_F5   KC_F6   KC_F7   KC_F8   KC_F9   KC_F10  KC_F11  KC_F12",
+ "_______ KC_HASH KC_DLR  KC_PERC KC_UNDS KC_PLUS KC_LCBR KC_RCBR KC_LBRC KC_RBRC KC_PIPE KC_BSLS",
+ "_______ KC_PGWD KC_PGUP KC_PGDN KC_INS  KC_DEL  KC_LEFT KC_DOWN KC_UP   KC_RIGHT KC_PSCR KC_SLCK",
+ "_______ _______ KC_SPC  KC_ENT  KC_BSPC _______ _______ _______ KC_MUTE KC_VOLD KC_VOLU KC_MPLY"
+]
+
+[[layers]]
+name = "adjust"
+keys = [
+ "RESET  DEBUG  KC_NO  KC_NO  KC_NO  KC_NO  KC_NO  KC_NO  KC_NO  KC_NO  KC_NO  KC_NO",
+ "_______ _______ _______ _______ _______ _______ _______ _______ _______ _______ _______ _______",
+ "_______ _______ _______ _______ _______ _______ _______ _______ _______ _______ _______ _______",
+ "_______ _______ _______ _______ _______ _______ _______ _______ _______ _______ _______ _______"
+]
+
+[aliases]
+KC_LOWER = "MO(1)"
+KC_RAISE = "MO(2)"
+KC_LALT = "KC_LALT"
+KC_RALT = "KC_RALT"
